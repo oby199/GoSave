@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Savings Circle Demo - Celo Blockchain ROSCA</title>
+    <meta name="description" content="A Rotating Savings and Credit Association (ROSCA) built on the Celo blockchain with React Native mobile app">
+    <meta name="keywords" content="savings, circle, ROSCA, celo, blockchain, defi, mobile app">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://your-username.github.io/savings-circle-demo/">
+    <meta property="og:title" content="Savings Circle Demo">
+    <meta property="og:description" content="Rotating Savings and Credit Association on Celo Blockchain">
+    <meta property="og:image" content="https://your-username.github.io/savings-circle-demo/assets/images/icon.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://your-username.github.io/savings-circle-demo/">
+    <meta property="twitter:title" content="Savings Circle Demo">
+    <meta property="twitter:description" content="Rotating Savings and Credit Association on Celo Blockchain">
+    <meta property="twitter:image" content="https://your-username.github.io/savings-circle-demo/assets/images/icon.png">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .nav-tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .nav-tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .nav-tab.active {
+            border-bottom-color: #667eea;
+            background: white;
+            color: #667eea;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        .screen {
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            margin-bottom: 10px;
+            transition: transform 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .input-group input, .input-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .circle-item {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            background: #f8f9fa;
+        }
+
+        .circle-name {
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .circle-details {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .balance {
+            font-size: 24px;
+            font-weight: bold;
+            color: #28a745;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .demo-data {
+            background: #e9ecef;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+
+        .github-banner {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #333;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            z-index: 1000;
+        }
+
+        .github-banner:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body>
+    <a href="https://github.com/your-username/savings-circle-demo" class="github-banner" target="_blank">
+        ⭐ Star on GitHub
+    </a>
+
+    <div class="container">
+        <div class="header">
+            <h1>💰 Savings Circle</h1>
+            <p>Rotating Savings & Credit Association on Celo</p>
+        </div>
+
+        <div class="nav-tabs">
+            <div class="nav-tab active" onclick="showScreen('home')">🏠 Home</div>
+            <div class="nav-tab" onclick="showScreen('circles')">👥 Circles</div>
+            <div class="nav-tab" onclick="showScreen('new')">➕ New Circle</div>
+            <div class="nav-tab" onclick="showScreen('balance')">💳 Balance</div>
+        </div>
+
+        <!-- Home Screen -->
+        <div id="home" class="content screen active">
+            <div class="card">
+                <h2>Welcome to Savings Circle!</h2>
+                <p>Create and manage rotating savings circles with friends and family on the Celo blockchain.</p>
+            </div>
+
+            <div class="card">
+                <h3>Quick Actions</h3>
+                <button class="btn" onclick="showScreen('new')">Create New Circle</button>
+                <button class="btn btn-secondary" onclick="showScreen('circles')">View My Circles</button>
+            </div>
+
+            <div class="card">
+                <h3>How It Works</h3>
+                <p>1. Create a circle with friends</p>
+                <p>2. Set contribution amount</p>
+                <p>3. Members contribute monthly</p>
+                <p>4. Take turns receiving the pool</p>
+            </div>
+
+            <div class="card">
+                <h3>Blockchain Features</h3>
+                <p>✅ Smart contract automation</p>
+                <p>✅ Transparent transactions</p>
+                <p>✅ Celo stablecoin (cUSD)</p>
+                <p>✅ Mobile-first design</p>
+            </div>
+
+            <div class="status info">
+                🔗 Connected to Celo Testnet (Alfajores)
+            </div>
+        </div>
+
+        <!-- Circles Screen -->
+        <div id="circles" class="content screen">
+            <div class="card">
+                <h2>My Savings Circles</h2>
+            </div>
+
+            <div class="circle-item">
+                <div class="circle-name">🏠 Family Circle</div>
+                <div class="circle-details">
+                    Members: 4 | Contribution: 50 cUSD | Next: You (in 2 months)
+                </div>
+                <button class="btn" onclick="contribute('family')">Contribute 50 cUSD</button>
+            </div>
+
+            <div class="circle-item">
+                <div class="circle-name">👥 Friends Circle</div>
+                <div class="circle-details">
+                    Members: 6 | Contribution: 25 cUSD | Next: Alice (in 1 month)
+                </div>
+                <button class="btn" onclick="contribute('friends')">Contribute 25 cUSD</button>
+            </div>
+
+            <div class="circle-item">
+                <div class="circle-name">💼 Work Circle</div>
+                <div class="circle-details">
+                    Members: 8 | Contribution: 100 cUSD | Next: Bob (in 3 months)
+                </div>
+                <button class="btn" onclick="contribute('work')">Contribute 100 cUSD</button>
+            </div>
+        </div>
+
+        <!-- New Circle Screen -->
+        <div id="new" class="content screen">
+            <div class="card">
+                <h2>Create New Circle</h2>
+            </div>
+
+            <div class="card">
+                <div class="input-group">
+                    <label>Circle Name</label>
+                    <input type="text" id="circleName" placeholder="e.g., Family Savings">
+                </div>
+
+                <div class="input-group">
+                    <label>Contribution Amount (cUSD)</label>
+                    <input type="number" id="contribution" placeholder="50">
+                </div>
+
+                <div class="input-group">
+                    <label>Member Addresses (one per line)</label>
+                    <textarea id="members" rows="4" placeholder="0x1234...&#10;0x5678...&#10;0x9abc..."></textarea>
+                </div>
+
+                <button class="btn" onclick="createCircle()">Create Circle</button>
+            </div>
+
+            <div class="demo-data">
+                <strong>Demo Addresses:</strong><br>
+                0x456f41406B32c45D59E539e4BBA3D7898c3584dA<br>
+                0x789f41406B32c45D59E539e4BBA3D7898c3584dB<br>
+                0x123f41406B32c45D59E539e4BBA3D7898c3584dC
+            </div>
+        </div>
+
+        <!-- Balance Screen -->
+        <div id="balance" class="content screen">
+            <div class="card">
+                <h2>My Balance</h2>
+                <div class="balance">1,250 cUSD</div>
+            </div>
+
+            <div class="card">
+                <h3>Recent Transactions</h3>
+                <div style="margin-bottom: 10px;">
+                    <strong>+50 cUSD</strong> - Contributed to Family Circle<br>
+                    <small style="color: #666;">2 days ago</small>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <strong>+25 cUSD</strong> - Contributed to Friends Circle<br>
+                    <small style="color: #666;">1 week ago</small>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <strong>+200 cUSD</strong> - Received from Work Circle<br>
+                    <small style="color: #666;">2 weeks ago</small>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Circle Balances</h3>
+                <div style="margin-bottom: 10px;">
+                    <strong>Family Circle:</strong> 150/200 cUSD (75%)
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <strong>Friends Circle:</strong> 125/150 cUSD (83%)
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <strong>Work Circle:</strong> 400/800 cUSD (50%)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showScreen(screenId) {
+            // Hide all screens
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected screen
+            document.getElementById(screenId).classList.add('active');
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+
+        function createCircle() {
+            const name = document.getElementById('circleName').value;
+            const contribution = document.getElementById('contribution').value;
+            const members = document.getElementById('members').value;
+
+            if (!name || !contribution || !members) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            // Simulate blockchain transaction
+            showStatus('Creating circle on Celo blockchain...', 'info');
+            
+            setTimeout(() => {
+                showStatus('✅ Circle created successfully!', 'success');
+                showScreen('circles');
+            }, 2000);
+        }
+
+        function contribute(circleName) {
+            showStatus('Processing contribution on Celo blockchain...', 'info');
+            
+            setTimeout(() => {
+                showStatus('✅ Contribution successful!', 'success');
+            }, 1500);
+        }
+
+        function showStatus(message, type) {
+            const status = document.createElement('div');
+            status.className = `status ${type}`;
+            status.textContent = message;
+            
+            const content = document.querySelector('.content.active');
+            content.insertBefore(status, content.firstChild);
+            
+            setTimeout(() => {
+                status.remove();
+            }, 3000);
+        }
+
+        // Simulate blockchain connection
+        setTimeout(() => {
+            showStatus('🔗 Connected to Celo Testnet', 'success');
+        }, 1000);
+
+        // Add GitHub Pages analytics
+        if (window.location.hostname.includes('github.io')) {
+            // Add any analytics or tracking here
+            console.log('Running on GitHub Pages');
+        }
+    </script>
+</body>
+</html> 
